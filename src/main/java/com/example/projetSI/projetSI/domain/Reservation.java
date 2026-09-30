@@ -1,10 +1,8 @@
 package com.example.projetSI.projetSI.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"client", "vehicule", "contrat"})
 public class Reservation implements Serializable {
 
     @Id
@@ -30,4 +29,19 @@ public class Reservation implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutReservation statut;
+
+    // Many Reservations -> One Client
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_client")
+    private Client client;
+
+    // Many Reservations -> One Vehicule
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_vehicule")
+    private Vehicule vehicule;
+
+    // One Reservation <-> One Contrat
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Contrat contrat;
 }

@@ -1,13 +1,13 @@
 package com.example.projetSI.projetSI.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "vehicule")
@@ -15,6 +15,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"agence", "equipements", "reservations", "maintenances"})
 public class Vehicule implements Serializable {
 
     @Id
@@ -40,4 +41,28 @@ public class Vehicule implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatutVehicule statut;
+
+    // Many Vehicules -> One Agence
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_agence")
+    private Agence agence;
+
+    // Many Vehicules <-> Many Equipements
+    @ManyToMany
+    @JoinTable(
+            name = "vehicule_equipement",
+            joinColumns = @JoinColumn(name = "id_vehicule"),
+            inverseJoinColumns = @JoinColumn(name = "id_equipement")
+    )
+    private List<Equipement> equipements = new ArrayList<>();
+
+    // One Vehicule -> Many Reservations
+    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Reservation> reservations = new ArrayList<>();
+
+    // One Vehicule -> Many Maintenances
+    @OneToMany(mappedBy = "vehicule", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Maintenance> maintenances = new ArrayList<>();
 }

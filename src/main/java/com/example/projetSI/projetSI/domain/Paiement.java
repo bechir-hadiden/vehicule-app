@@ -1,10 +1,7 @@
 package com.example.projetSI.projetSI.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "contrat")
 public class Paiement implements Serializable {
 
     @Id
@@ -30,4 +28,9 @@ public class Paiement implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private ModePaiement modePaiement;
+
+    // Many Paiements -> One Contrat
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_contrat")
+    private Contrat contrat;
 }

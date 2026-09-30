@@ -1,13 +1,13 @@
 package com.example.projetSI.projetSI.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "contrat")
@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"reservation", "paiements"})
 public class Contrat implements Serializable {
 
     @Id
@@ -26,4 +27,14 @@ public class Contrat implements Serializable {
     private Double montantTotal;
 
     private Boolean valide;
+
+    // One Contrat <-> One Reservation (Owning side)
+    @OneToOne
+    @JoinColumn(name = "id_reservation", unique = true)
+    private Reservation reservation;
+
+    // One Contrat -> Many Paiements
+    @OneToMany(mappedBy = "contrat", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Paiement> paiements = new ArrayList<>();
 }

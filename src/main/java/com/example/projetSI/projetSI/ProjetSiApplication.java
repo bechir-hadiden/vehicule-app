@@ -1,8 +1,6 @@
 package com.example.projetSI.projetSI;
 
-import com.example.projetSI.projetSI.domain.CategorieVehicule;
-import com.example.projetSI.projetSI.domain.StatutVehicule;
-import com.example.projetSI.projetSI.domain.Vehicule;
+import com.example.projetSI.projetSI.domain.*;
 import com.example.projetSI.projetSI.repository.VehiculeRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -30,7 +29,11 @@ public class ProjetSiApplication {
                         "Clio 5",
                         CategorieVehicule.CITADINE,
                         new BigDecimal("90.00"),
-                        StatutVehicule.DISPONIBLE
+                        StatutVehicule.DISPONIBLE,
+                        null,
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 );
                 Vehicule v2 = new Vehicule(
                         null,
@@ -39,7 +42,11 @@ public class ProjetSiApplication {
                         "3008",
                         CategorieVehicule.SUV,
                         new BigDecimal("180.00"),
-                        StatutVehicule.DISPONIBLE
+                        StatutVehicule.DISPONIBLE,
+                        null,
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 );
                 Vehicule v3 = new Vehicule(
                         null,
@@ -48,11 +55,15 @@ public class ProjetSiApplication {
                         "Passat",
                         CategorieVehicule.BERLINE,
                         new BigDecimal("220.00"),
-                        StatutVehicule.LOUE
+                        StatutVehicule.LOUE,
+                        null,
+                        new ArrayList<>(),
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 );
 
                 vehiculeRepository.saveAll(List.of(v1, v2, v3));
-                System.out.println(">>> Initialisation : 3 vehicules de demonstration inseres avec succes !");
+                System.out.println(">>> Initialisation : 3 vehicules inseres avec succes !");
             }
         };
     }

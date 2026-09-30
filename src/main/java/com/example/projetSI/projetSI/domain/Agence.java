@@ -1,12 +1,12 @@
 package com.example.projetSI.projetSI.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "agence")
@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = {"vehicules", "employes"})
 public class Agence implements Serializable {
 
     @Id
@@ -31,4 +32,14 @@ public class Agence implements Serializable {
 
     @Column(length = 20)
     private String telephone;
+
+    // One Agence -> Many Vehicules
+    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Vehicule> vehicules = new ArrayList<>();
+
+    // One Agence -> Many Employes
+    @OneToMany(mappedBy = "agence", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Employe> employes = new ArrayList<>();
 }

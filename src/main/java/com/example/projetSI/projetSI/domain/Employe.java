@@ -1,10 +1,7 @@
 package com.example.projetSI.projetSI.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -14,6 +11,7 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "agence")
 public class Employe implements Serializable {
 
     @Id
@@ -29,4 +27,9 @@ public class Employe implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private RoleEmploye role;
+
+    // Many Employes -> One Agence
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_agence")
+    private Agence agence;
 }

@@ -1,13 +1,13 @@
 package com.example.projetSI.projetSI.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "reservations")
 public class Client implements Serializable {
 
     @Id
@@ -37,4 +38,8 @@ public class Client implements Serializable {
     private String numPermis;
 
     private LocalDate dateInscription;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Reservation> reservations = new ArrayList<>();
 }
