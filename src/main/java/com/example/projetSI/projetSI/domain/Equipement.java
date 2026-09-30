@@ -1,0 +1,25 @@
+package com.example.projetSI.projetSI.domain;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.io.Serializable;
+
+@Entity
+@Table(name = "equipement")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Equipement implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idEquipement;
+
+    @Column(nullable = false, length = 100)
+    private String libelle;
+}
