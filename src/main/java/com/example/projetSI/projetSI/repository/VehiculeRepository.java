@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface VehiculeRepository extends JpaRepository<Vehicule, Long> {
-    Optional<Vehicule> findByImmatriculation(String immatriculation);
+    List<Vehicule> findByImmatriculation(String immatriculation);
     List<Vehicule> findByMarque(String marque);
     List<Vehicule> findByStatut(StatutVehicule statut);
     List<Vehicule> findByCategorie(CategorieVehicule categorie);
